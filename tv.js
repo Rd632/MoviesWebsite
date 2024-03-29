@@ -83,14 +83,7 @@ const genres = [
     }
   ]
 
- /* const genres = [
-    { title: 'Movie 1', language: 'english' },
-    { title: 'Movie 2', language: 'spanish' },
-    { title: 'Movie 3', language: 'english' },
-    { title: 'Movie 4', language: 'french' },
-    { title: 'Movie 5', language: 'english' },
-    { title: 'Movie 6', language: 'spanish' },
-  ];*/
+ 
 
   const main = document.getElementById('main');
   const form =  document.getElementById('form');
@@ -106,6 +99,10 @@ const genres = [
   var prevPage = 3;
   var lastUrl = '';
   var totalPages = 100;
+
+  
+
+
   
   var selectedGenre = []
   setGenre();

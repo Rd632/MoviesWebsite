@@ -59,6 +59,12 @@ header{
     margin-top: 222px;
     text-decoration: none;
 }
+
+.main-nav .nav-item a:hover,.main-nav .nav-item a.active{
+    color: blue;
+    text-decoration: underline;   
+}
+
 .search{
     background-color: transparent;
     border: 2px solid var(--primary-color);

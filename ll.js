@@ -1,9 +1,36 @@
 const API_KEY = 'api_key=1cf50e6248dc270629e802686245c2c8';
+//var languageCode = 'te'; 
 const BASE_URL = 'https://api.themoviedb.org/3';
 const API_URL = BASE_URL + '/discover/movie?sort_by=popularity.desc&'+API_KEY;
 const IMG_URL = 'https://image.tmdb.org/t/p/w500';
 const searchURL = BASE_URL + '/search/movie?'+API_KEY;
 
+const lan = [
+  {
+    "languageCode": 'te',
+    "name": 'Telugu'
+  },
+  {
+    "languageCode": 'en',
+    "name": 'English'
+  },
+  {
+    "languageCode": 'hi',
+    "name": 'Hindi'
+  },
+  {
+    "languageCode": 'ml',
+    "name": 'Malayalam'
+  },
+  {
+    "languageCode": 'ta',
+    "name": 'Tamil'
+  },
+  {
+    "languageCode": 'kn',
+    "name": 'Kannada'
+  },
+];
 
 
   const main = document.getElementById('main');
@@ -20,7 +47,94 @@ const searchURL = BASE_URL + '/search/movie?'+API_KEY;
   var prevPage = 3;
   var lastUrl = '';
   var totalPages = 100;
+
   
+
+
+
+
+  var selectedlang = [];
+
+selectLang();
+
+function selectLang() {
+  tagsEl.innerHTML = '';
+
+  lan.forEach(lang => {
+    const t = document.createElement('div');
+    t.classList.add('tag');
+    t.dataset.languageCode = lang.languageCode; // Use dataset to store custom data
+    t.innerText = lang.name;
+
+    t.addEventListener('click', () => {
+      const languageCode = lang.languageCode;
+  
+      // Check if the language code is already selected
+      const isLanguageSelected = selectedlang.includes(languageCode);
+  
+      // Toggle selection
+      if (!isLanguageSelected) {
+          // If not selected, add to the selectedlang array
+          selectedlang.push(languageCode);
+      } else {
+          // If selected, remove from the selectedlang array
+          selectedlang = selectedlang.filter(code => code !== languageCode);
+      }
+  
+      // If nothing is selected, show all results
+      if (selectedlang.length === 0) {
+          // Call getMovies without language filter
+          getMovies(API_URL);
+      } else {
+          // Call getMovies with language filter
+          getMovies(API_URL + '&with_original_language=' + encodeURI(selectedlang.join(',')));
+      }
+  
+      console.log(selectedlang);
+      highlightSelection();
+  });
+  
+
+    tagsEl.append(t);
+  });
+}
+
+function highlightSelection() {
+  const tags = document.querySelectorAll('.tag');
+  tags.forEach(tag => {
+      tag.classList.remove('highlight');
+  });
+  clearBtn()
+  if (selectedlang.length !== 0) {   
+      selectedlang.forEach(languageCode => {
+          const highlightedTag = document.querySelector(`.tag[data-language-code="${languageCode}"]`);
+          if (highlightedTag) {
+              highlightedTag.classList.add('highlight');
+          }
+      });
+  }
+}
+
+
+function clearBtn(){
+  let clearBtn = document.getElementById('clear');
+  if(clearBtn){
+      clearBtn.classList.add('highlight')
+  }else{
+          
+      let clear = document.createElement('div');
+      clear.classList.add('tag','highlight');
+      clear.id = 'clear';
+      clear.innerText = 'Clear x';
+      clear.addEventListener('click', () => {
+          selectedlang = [];
+          selectLang();            
+          getMovies(API_URL);
+      })
+      tagsEl.append(clear);
+  }
+  
+} 
   
   getMovies(API_URL);
   

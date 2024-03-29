@@ -97,6 +97,10 @@ const genres = [
   var prevPage = 3;
   var lastUrl = '';
   var totalPages = 100;
+
+ 
+
+
   
   var selectedGenre = []
   setGenre();
